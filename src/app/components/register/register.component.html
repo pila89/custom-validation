@@ -1,58 +1,66 @@
 <div class="row my-5">
   <div class="offset-md-3 col-md-6 my-5">
-    <form class="my-0" (ngSubmit)="onRegister(registerForm)" #registerForm="ngForm">
+    <form class="my-0" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onRegister()">
       <h1 class="text-primary text-center my-3">Sign up</h1>
       <div class="my-3">{{registerForm.value | json}}</div>
       <div class="mb-3">
         <label for="fullname" class="form-label">Full name:</label>
         <input type="text" class="form-control" id="fullname" name="fullName" placeholder="Type your full name here"
-          [(ngModel)]="fullName" #fullNameControl="ngModel" required
-          [ngClass]="{ 'is-invalid': submitted && fullNameControl.invalid, 'is-valid': submitted && fullNameControl.valid }">
-        <div *ngIf="submitted && fullNameControl.hasError('required')" class="d-block invalid-feedback">
+          formControlName="fullName"
+          [ngClass]="{ 'is-invalid': submitted && registerForm.get('fullName')?.hasError('required'), 'is-valid': submitted && !registerForm.get('fullName')?.hasError('required')}">
+        <div *ngIf="submitted && registerForm.get('fullName')?.hasError('required')" class="d-block invalid-feedback">
           Full name is required.
+        </div>
+        <div *ngIf="submitted && registerForm.get('fullName')?.hasError('fullNameError')" class="d-block invalid-feedback">
+          Full name must be contains {{fullName?.errors['requiredValue']}} words.
         </div>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">E-mail address</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Type your e-mail address here" autocomplete="email"
-          [(ngModel)]="email" #emailControl="ngModel" required email
-          [ngClass]="{ 'is-invalid': submitted && emailControl.invalid, 'is-valid': submitted && emailControl.valid }">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Type your e-mail address here"
+          autocomplete="email" formControlName="email"
+          [ngClass]="{ 'is-invalid': submitted && registerForm.get('email')?.hasError('required'), 'is-valid': submitted && !registerForm.get('email')?.hasError('required') }">
         <div class="d-block invalid-feedback">
-          <div *ngIf="submitted && emailControl.hasError('required')">E-mail is required.</div>
-          <div *ngIf="submitted && emailControl.hasError('email')">E-mail must be a valid email address.</div>
+          <div *ngIf="submitted && registerForm.get('email')?.hasError('required')">E-mail is required.</div>
+          <div *ngIf="submitted && registerForm.get('email')?.hasError('email')">E-mail must be a valid email address.
+          </div>
         </div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Type your password here" autocomplete="new-password"
-          [(ngModel)]="password" #passwordControl="ngModel" required minlength="6"
-          [ngClass]="{ 'is-invalid': submitted && passwordControl.invalid, 'is-valid': submitted && passwordControl.valid }">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Type your password here"
+          autocomplete="new-password" formControlName="password"
+          [ngClass]="{ 'is-invalid': submitted && registerForm.get('password')?.invalid, 'is-valid': submitted && !registerForm.get('password')?.hasError('required') }">
         <div class="d-block invalid-feedback">
-          <div *ngIf="submitted && passwordControl.hasError('required')">Password is required.</div>
-          <div *ngIf="submitted && passwordControl.hasError('minlength')">Password must be at least 6 characters.</div>
+          <div *ngIf="submitted && registerForm.get('password')?.hasError('required')">Password is required.</div>
+          <div *ngIf="submitted && registerForm.get('password')?.hasError('minlength')">Password must be at least 6
+            characters.</div>
         </div>
       </div>
       <div class="mb-3">
         <label for="passwordConfirmation" class="form-label">Confirm password</label>
-        <input type="password" class="form-control" id="passwordConfirmation" name="confirmPassword" autocomplete="new-password"
-          placeholder="Confirm your password here" [(ngModel)]="confirmPassword" #passwordConfirmationControl="ngModel" required minlength="6"
-          [ngClass]="{ 'is-invalid': submitted && passwordConfirmationControl.invalid, 'is-valid': submitted && passwordConfirmationControl.valid }">
+        <input type="password" class="form-control" id="passwordConfirmation" name="confirmPassword"
+          autocomplete="new-password" placeholder="Confirm your password here" formControlName="confirmPassword"
+          [ngClass]="{ 'is-invalid': submitted && registerForm.get('confirmPassword')?.invalid, 'is-valid': submitted && !registerForm.get('confirmPassword')?.hasError('required') }">
         <div class="d-block invalid-feedback">
-          <div *ngIf="submitted && passwordConfirmationControl.hasError('required')">Password confirmation is required.</div>
-          <div *ngIf="submitted && passwordConfirmationControl.hasError('minlength')">Password confirmation must be at least 6 characters.</div>
-          <div *ngIf="submitted && passwordConfirmationControl.hasError('matching')">Password confirmation does not match.</div>
+          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('required')">Password confirmation is
+            required.</div>
+          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('minlength')">Password confirmation
+            must be at least 6 characters.</div>
+          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('matching')">Password confirmation does
+            not match.</div>
         </div>
-        {{passwordConfirmationControl.errors |json}}
+        {{registerForm.get('confirmPassword')?.errors |json}}
       </div>
       <div class="mb-3 form-check">
         <label class="form-check-label" for="check">
           I have read and agree to the <a routerLink="/term-and-condition">term and conditions</a>.
         </label>
-        <input type="checkbox" class="form-check-input" name="chack" id="check" [(ngModel)]="termAccepted"
-          #acceptTermControl="ngModel" required
-          [ngClass]="{ 'is-invalid': submitted && acceptTermControl.invalid, 'is-valid': submitted && acceptTermControl.valid }">
+        <input type="checkbox" class="form-check-input" name="chack" id="check" formControlName="termAccepted"
+          [ngClass]="{ 'is-invalid': submitted && registerForm.get('termAccepted')?.invalid, 'is-valid': submitted && !registerForm.get('termAccepted')?.hasError('required') }">
         <div class="d-block invalid-feedback">
-          <div *ngIf="submitted && acceptTermControl.hasError('required')">Please accept the terms & conditions.</div>
+          <div *ngIf="submitted && registerForm.get('termAccepted')?.hasError('required')">Please accept the terms &
+            conditions.</div>
         </div>
       </div>
       <div class="d-grid gap-2">

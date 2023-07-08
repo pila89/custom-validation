@@ -1,50 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { fullNameValidator } from 'src/app/validators/fullName.validator';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-
-  // Tutorial Link 1: https://jasonwatmore.com/post/2018/11/10/angular-7-template-driven-forms-validation-example
-  // Tutorial Link 2: https://timdeschryver.dev/blog/a-practical-guide-to-angular-template-driven-forms#custom-validators
-  // Tutorial Link 3: https://www.bezkoder.com/angular-14-template-driven-form-validation/
-
-  public fullName?: string = '';
-  public email?: string = '';
-  public password?: string = '';
-  public confirmPassword?: string = '';
-  public termAccepted?: any;
+  public registerForm?: FormGroup;
   public submitted = false;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      fullName: ['', [Validators.required,fullNameValidator(5)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      rememberMe: [false, [Validators.requiredTrue]],
+    });
   }
 
-  onRegister(form: any): void {
-    // event.preventDefault();
+  onRegister(): void {
     this.submitted = true;
-    if(form.invalid){
+    if (this.registerForm?.invalid) {
       return;
     }
-    // console.log(`form data : ${JSON.stringify(form.value)}`)
 
-    // call rest API using service
-    const data = {
-      fullName: this.fullName,
-      email: this.email,
-      password: this.password,
-      confirmPassword: this.confirmPassword
-    }
-    console.log(data)
+    const data = this.registerForm?.value;
+    console.log(data);
 
     // reset form
-    this.fullName = '';
-    this.email = '';
-    this.password = '';
-    this.confirmPassword = '';
-    this.submitted= false;
+    this.registerForm?.reset();
+    this.submitted = false;
   }
 }
