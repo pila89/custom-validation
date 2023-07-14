@@ -2,6 +2,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function fullNameValidator(n: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return null;
+    }
     const v: string = control.value.trim();
     const nbMots = v.split(' ').length;
 
