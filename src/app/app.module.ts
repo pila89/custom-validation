@@ -5,8 +5,9 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { AsyncComponent } from './components/async/async.component';
 @NgModule({
-  declarations: [AppComponent, RegisterComponent],
+  declarations: [AppComponent, RegisterComponent, AsyncComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
