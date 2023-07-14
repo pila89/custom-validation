@@ -48,7 +48,7 @@
             required.</div>
           <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('password')">Password must be at least 5
             characters and must be less than 10 characters and must contain digit and special characters.</div>
-          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('compare')">Password confirmation does
+          <div *ngIf="submitted && registerForm.hasError('passwordMatchError')">Password confirmation does
             not match.</div>
         </div>
         {{registerForm.get('confirmPassword')?.errors |json}}
