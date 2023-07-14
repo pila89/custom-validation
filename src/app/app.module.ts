@@ -4,10 +4,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 @NgModule({
   declarations: [AppComponent, RegisterComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RxReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

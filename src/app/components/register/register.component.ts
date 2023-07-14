@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { fullNameValidator } from 'src/app/validators/fullName.validator';
 
 @Component({
@@ -17,9 +18,36 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       fullName: ['', [Validators.required, fullNameValidator(5)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      rememberMe: [false, [Validators.requiredTrue]],
+      password: [
+        '',
+        [
+          Validators.required,
+          RxwebValidators.password({
+            validation: {
+              maxLength: 10,
+              minLength: 5,
+              digit: true,
+              specialCharacter: true,
+            },
+          }),
+        ],
+      ],
+      confirmPassword: [
+        '',
+        [
+          Validators.required,
+          RxwebValidators.password({
+            validation: {
+              maxLength: 10,
+              minLength: 5,
+              digit: true,
+              specialCharacter: true,
+            },
+          }),
+          RxwebValidators.compare({ fieldName: 'password' }),
+        ],
+      ],
+      termAccepted: [false, [Validators.requiredTrue]],
     });
   }
 

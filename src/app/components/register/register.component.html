@@ -33,9 +33,10 @@
           [ngClass]="{ 'is-invalid': submitted && registerForm.get('password')?.invalid, 'is-valid': submitted && !registerForm.get('password')?.hasError('required') }">
         <div class="d-block invalid-feedback">
           <div *ngIf="submitted && registerForm.get('password')?.hasError('required')">Password is required.</div>
-          <div *ngIf="submitted && registerForm.get('password')?.hasError('minlength')">Password must be at least 6
-            characters.</div>
+          <div *ngIf="submitted && registerForm.get('password')?.hasError('password')">Password must be at least 5
+            characters and must be less than 10 characters and must contain digit and special characters.</div>
         </div>
+
       </div>
       <div class="mb-3">
         <label for="passwordConfirmation" class="form-label">Confirm password</label>
@@ -45,9 +46,9 @@
         <div class="d-block invalid-feedback">
           <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('required')">Password confirmation is
             required.</div>
-          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('minlength')">Password confirmation
-            must be at least 6 characters.</div>
-          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('matching')">Password confirmation does
+          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('password')">Password must be at least 5
+            characters and must be less than 10 characters and must contain digit and special characters.</div>
+          <div *ngIf="submitted && registerForm.get('confirmPassword')?.hasError('compare')">Password confirmation does
             not match.</div>
         </div>
         {{registerForm.get('confirmPassword')?.errors |json}}
