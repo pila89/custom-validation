@@ -12,7 +12,7 @@
           Full name is required.
         </div>
         <div *ngIf="submitted && registerForm.get('fullName')?.hasError('fullNameError')" class="d-block invalid-feedback">
-          Full name must be contains {{fullName?.errors['requiredValue']}} words.
+          Full name must be contains {{registerForm.get('fullName')?.errors?.['requiredValue']}} words.
         </div>
       </div>
       <div class="mb-3">
